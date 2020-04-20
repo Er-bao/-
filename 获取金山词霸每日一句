@@ -1,0 +1,19 @@
+import requests
+import json
+def get_sentence():#获取金山词霸每日一句
+    sentence_url='http://open.iciba.com/dsapi/'#金山词霸每日一句api
+    data_1=requests.get(sentence_url).text
+    jdata_1=json.loads(data_1)
+    #json 格式解析
+    time=jdata_1['dateline']
+    print('*************每日一句*************')
+    print('*****时间：'+time)
+    print('*****ENGLISH:    '+jdata_1['content'])
+    print('*****CHINESE:    '+jdata_1['note'])
+    print('*****每日图片可以点击如下链接：  '+jdata_1['fenxiang_img'])
+    data=requests.get(jdata_1['fenxiang_img'])
+    with open('{}_oen_page.jpg'.format(time),'wb') as f:
+        f.write(data.content)
+        input('{}_one_page_have—finished'.format(time))
+if __name__ == '__main__':
+    get_sentence()
